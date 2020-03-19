@@ -1,2 +1,2 @@
 # Basics
-Java Udemy Course
+Java Udemy Course by Tivenrionis
