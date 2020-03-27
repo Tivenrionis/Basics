@@ -9,6 +9,10 @@ public class GroceryList {
         groceryList.add(item);
     }
 
+    public ArrayList<String> getGroceryList() {
+        return groceryList;
+    }
+
     public void printGroceryList() {
         System.out.println("You have " + groceryList.size() + " items in your grocery list.");
 

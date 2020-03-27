@@ -1,5 +1,6 @@
 package com.tiven.questy.ArrayLists;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -38,11 +39,26 @@ public class Main {
                 case 6:
                     quit = true;
                     break;
+                case 7:
+                    processArrayList();
+                    break;
             }
 
         }
 
 
+    }
+    // COPYING LISTS AND CHANGING TO ARRAYS
+    private static void processArrayList() {
+        //copying list
+        ArrayList<String> newArray = new ArrayList<String>();
+        newArray.addAll(groceryList.getGroceryList());
+        //copying lists
+        ArrayList<String> nextArray = new ArrayList<>(groceryList.getGroceryList());
+
+        //list to array
+        String[] array = new String[groceryList.getGroceryList().size()];
+        array = groceryList.getGroceryList().toArray(array);
     }
 
     public static void searchForItem() {
@@ -59,7 +75,7 @@ public class Main {
         System.out.println("Enter item number: ");
         int itemNo = scanner.nextInt();
         scanner.nextLine();
-        groceryList.removeGroceryItem(itemNo-1);
+        groceryList.removeGroceryItem(itemNo - 1);
     }
 
     public static void addItem() {
@@ -86,6 +102,8 @@ public class Main {
         System.out.println("\t 4 - To remove an item from the list.");
         System.out.println("\t 5 - To search for an item in the list.");
         System.out.println("\t 6 - To quit the application.");
+        System.out.println("\t 7 - Process arrayList().");
+
     }
 
 }
