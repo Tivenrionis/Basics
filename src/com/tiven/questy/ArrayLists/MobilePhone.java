@@ -36,6 +36,9 @@ public class MobilePhone {
         if (foundPosition < 0) {
             System.out.println(oldContact.getName() + " was not found");
             return false;
+        } else if (findContact(newContact.getName()) != -1) {
+            System.out.println(newContact.getName() + " already exist. Update was not successfull.");
+            return false;
         }
         this.contacts.set(foundPosition, newContact);
         System.out.println(oldContact.getName() + " was replaced with " + newContact.getName());
