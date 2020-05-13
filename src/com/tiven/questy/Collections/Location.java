@@ -15,7 +15,6 @@ public class Location {
     // immutability private final
     private final int locationID;
     private final String description;
-
     private final Map<String, Integer> exits;
 
     public Location(int locationID, String description) {
