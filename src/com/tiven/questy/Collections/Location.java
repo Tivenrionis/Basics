@@ -12,6 +12,7 @@ import java.util.Map;
  * Description:
  */
 public class Location {
+    // immutability private final
     private final int locationID;
     private final String description;
 
@@ -22,6 +23,12 @@ public class Location {
         this.description = description;
         exits = new HashMap<>();
     }
+    // IMMUTABILITY
+//    public Location(int locationID, String description, Map<String, Integer> exits) {
+//        this.locationID = locationID;
+//        this.description = description;
+//        exits = new HashMap<>(exits); <----- immutability
+//    }
 
     public void addExit(String direction, int location) {
         exits.put(direction, location);
@@ -35,6 +42,7 @@ public class Location {
         return description;
     }
 
+// immutability
     public Map<String, Integer> getExits() {
         return new HashMap<>(exits);
     }
