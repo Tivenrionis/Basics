@@ -1,4 +1,4 @@
-package com.tiven.questy.Collections;
+package com.tiven.questy.Set;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -100,6 +100,14 @@ public class SetAndHashSet {
         System.out.println("All moons ");
         for (HeavenlyBody moon : moons) {
             System.out.println("\t" + moon.getName());
+        }
+
+        HeavenlyBody pluto = new HeavenlyBody("Pluto", 800);
+        planets.add(pluto); // doda sie do set'a , ponieważ wedlug compilatora ten obiekt nie jest rowny poprzedniemu pluto
+        // TRZEBA NADPISAC equals()
+        //ZAWSZE nadpisz hashcode jak nadpisujesz equals
+        for (HeavenlyBody planet : planets) {
+            System.out.println(planet.getName() + " " + planet.hashCode() + " " + planet.getOrbitalPeriod());
         }
 
     }

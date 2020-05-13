@@ -1,4 +1,4 @@
-package com.tiven.questy.Collections;
+package com.tiven.questy.Map;
 
 import java.util.HashMap;
 import java.util.Map;
