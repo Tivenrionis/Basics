@@ -12,28 +12,38 @@ public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
-        FileWriter locFile = null;
-        try {
-            locFile = new FileWriter("locations.txt");
+        //try with resources - RESOURCE is a OBJECT THAT MUST BE CLOSED
+        try (FileWriter locFile = new FileWriter("locations.txt")) {
             for (Location location : locations.values()) {
                 locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
             }
         }
-//        } catch (IOException e) {
-//            System.out.println("in catch");
-//            e.printStackTrace();
-//        }
-        finally {
-//            try {
-            if (locFile != null) {
-                locFile.close();
-            }
-            // }
-//            catch (IOException e) {
-//                System.out.println("Cant close dat");
-//                e.printStackTrace();
+
+
+//        FileWriter locFile = null;
+//        try {
+//            locFile = new FileWriter("locations.txt");
+//            for (Location location : locations.values()) {
+//                locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
 //            }
-        }
+//        }
+////        } catch (IOException e) {
+////            System.out.println("in catch");
+////            e.printStackTrace();
+////        }
+//        finally {
+////            try {
+//            System.out.println("in finally");
+//            if (locFile != null) {
+//                locFile.close();
+//                System.out.println("closed");
+//            }
+//            // }
+////            catch (IOException e) {
+////                System.out.println("Cant close dat");
+////                e.printStackTrace();
+////            }
+//        }
     }
 
     static {
