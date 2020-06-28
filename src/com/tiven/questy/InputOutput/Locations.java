@@ -11,26 +11,28 @@ import java.util.Set;
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new HashMap<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         FileWriter locFile = null;
         try {
             locFile = new FileWriter("locations.txt");
             for (Location location : locations.values()) {
                 locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
             }
-
-        } catch (IOException e) {
-            System.out.println("in catch");
-            e.printStackTrace();
-        } finally {
-            try {
-                if (locFile != null) {
-                    locFile.close();
-                }
-            } catch (IOException e) {
-                System.out.println("Cant close dat");
-                e.printStackTrace();
+        }
+//        } catch (IOException e) {
+//            System.out.println("in catch");
+//            e.printStackTrace();
+//        }
+        finally {
+//            try {
+            if (locFile != null) {
+                locFile.close();
             }
+            // }
+//            catch (IOException e) {
+//                System.out.println("Cant close dat");
+//                e.printStackTrace();
+//            }
         }
     }
 
