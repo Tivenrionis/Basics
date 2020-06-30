@@ -1,19 +1,16 @@
 package com.tiven.questy.InputOutput;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 //checked exception cannot be ignored - will not compile
 public class Locations implements Map<Integer, Location> {
-    private static Map<Integer, Location> locations = new HashMap<>();
+    private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
         //try with resources - RESOURCE is a OBJECT THAT MUST BE CLOSED
-        try (FileWriter locFile = new FileWriter("locations_big.txt");
-             FileWriter dirFile = new FileWriter("directions_big.txt")) {
+        try (BufferedWriter locFile = new BufferedWriter(new FileWriter("locations_big.txt"));
+             BufferedWriter dirFile = new BufferedWriter(new FileWriter("directions_big.txt"))) {
             for (Location location : locations.values()) {
                 locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
                 for (String dir : location.getExits().keySet()) {
@@ -21,41 +18,12 @@ public class Locations implements Map<Integer, Location> {
                 }
             }
         }
-
-
-//        FileWriter locFile = null;
-//        try {
-//            locFile = new FileWriter("locations.txt");
-//            for (Location location : locations.values()) {
-//                locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
-//            }
-//        }
-////        } catch (IOException e) {
-////            System.out.println("in catch");
-////            e.printStackTrace();
-////        }
-//        finally {
-////            try {
-//            System.out.println("in finally");
-//            if (locFile != null) {
-//                locFile.close();
-//                System.out.println("closed");
-//            }
-//            // }
-////            catch (IOException e) {
-////                System.out.println("Cant close dat");
-////                e.printStackTrace();
-////            }
-//        }
     }
 
     static {
         //Buffered Reader reads text from input stream and bufers the character into character array
         // faster and more efficient
-
-
-        try (Scanner scanner = new Scanner(new FileReader("locations_big.txt"))) {
-
+        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) {
             scanner.useDelimiter(" , ");
             while (scanner.hasNextLine()) {
                 int loc = scanner.nextInt();
@@ -65,7 +33,6 @@ public class Locations implements Map<Integer, Location> {
                 Map<String, Integer> tempExit = new HashMap<>();
                 locations.put(loc, new Location(loc, description, tempExit));
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,11 +40,6 @@ public class Locations implements Map<Integer, Location> {
         try (BufferedReader dirFiles = new BufferedReader(new FileReader("directions_big.txt"))) {
             String line;
             while ((line = dirFiles.readLine()) != null) {
-//                int loc = scanner.nextInt();
-//                scanner.skip(scanner.delimiter());
-//                String direction = scanner.next();
-//                scanner.skip(scanner.delimiter());
-//                String dest = scanner.nextLine();
                 String[] data = line.split(" , ");
                 int loc = Integer.parseInt(data[0]);
                 String direction = data[1];
@@ -87,38 +49,9 @@ public class Locations implements Map<Integer, Location> {
                 Location location = locations.get(loc);
                 location.addExit(direction, destination);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        Map<String, Integer> tempExit = new HashMap<String, Integer>();
-//        locations.put(0, new Location(0, "You are sitting in front of a computer learning Java", null));
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("W", 2);
-//        tempExit.put("E", 3);
-//        tempExit.put("S", 4);
-//        tempExit.put("N", 5);
-//        locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building", tempExit));
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("N", 5);
-//        locations.put(2, new Location(2, "You are at the top of a hill", tempExit));
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("W", 1);
-//        locations.put(3, new Location(3, "You are inside a building, a well house for a small spring", tempExit));
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("N", 1);
-//        tempExit.put("W", 2);
-//        locations.put(4, new Location(4, "You are in a valley beside a stream", tempExit));
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("S", 1);
-//        tempExit.put("W", 2);
-//        locations.put(5, new Location(5, "You are in the forest", tempExit));
     }
 
     @Override
