@@ -1,5 +1,6 @@
 package com.tiven.questy.InputOutput;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,6 +50,8 @@ public class Locations implements Map<Integer, Location> {
     }
 
     static {
+        //Buffered Reader reads text from input stream and bufers the character into character array
+        // faster and more efficient
 
         Scanner scanner = null;
 
@@ -62,6 +65,34 @@ public class Locations implements Map<Integer, Location> {
                 System.out.println("Imported loc: " + loc + ": " + description);
                 Map<String, Integer> tempExit = new HashMap<>();
                 locations.put(loc, new Location(loc, description, tempExit));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader("directions.txt")));
+            scanner.useDelimiter(" , ");
+            while (scanner.hasNextLine()) {
+//                int loc = scanner.nextInt();
+//                scanner.skip(scanner.delimiter());
+//                String direction = scanner.next();
+//                scanner.skip(scanner.delimiter());
+//                String dest = scanner.nextLine();
+                String input = scanner.nextLine();
+                String[] data = input.split(" , ");
+                int loc = Integer.parseInt(data[0]);
+                String direction = data[1];
+                int destination = Integer.parseInt(data[2]);
+
+                System.out.println(loc + ": " + direction + ": " + destination);
+                Location location = locations.get(loc);
+                location.addExit(direction, destination);
             }
 
         } catch (IOException e) {
