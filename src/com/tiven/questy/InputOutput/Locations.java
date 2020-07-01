@@ -4,17 +4,38 @@ import java.io.*;
 import java.util.*;
 
 //checked exception cannot be ignored - will not compile
+
+//FileInputStream and FileOutputStream is for binary/byte format
+//DataInput and DataOutputStream act as a BufferedReader nad Writer
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
         //try with resources - RESOURCE is a OBJECT THAT MUST BE CLOSED
-        try (BufferedWriter locFile = new BufferedWriter(new FileWriter("locations_big.txt"));
-             BufferedWriter dirFile = new BufferedWriter(new FileWriter("directions_big.txt"))) {
-            for (Location location : locations.values()) {
-                locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
-                for (String dir : location.getExits().keySet()) {
-                    dirFile.write(location.getLocationID() + " , " + dir + " , " + location.getExits().get(dir) + "\n");
+//        try (BufferedWriter locFile = new BufferedWriter(new FileWriter("locations_big.txt"));
+//             BufferedWriter dirFile = new BufferedWriter(new FileWriter("directions_big.txt"))) {
+//            for (Location location : locations.values()) {
+//                locFile.write(location.getLocationID() + " , " + location.getDescription() + "\n");
+//                for (String dir : location.getExits().keySet()) {
+//                    dirFile.write(location.getLocationID() + " , " + dir + " , " + location.getExits().get(dir) + "\n");
+//                }
+//            }
+//        }
+
+
+        try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+            for (Location loc : locations.values()) {
+                locFile.writeInt(loc.getLocationID());
+                locFile.writeUTF(loc.getDescription());
+                System.out.println("Writing " + loc.getLocationID() + " and " + loc.getDescription());
+                System.out.println("Writing: " + (loc.getExits().size() - 1) + " exits");
+                locFile.writeInt(loc.getExits().size() - 1);
+                for (String direction : loc.getExits().keySet()) {
+                    if (!direction.equalsIgnoreCase("Q")) {
+                        System.out.println("\t\t\t" + direction + ", " + loc.getExits().get(direction));
+                        locFile.writeUTF(direction);
+                        locFile.writeInt(loc.getExits().get(direction));
+                    }
                 }
             }
         }
