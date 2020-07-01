@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 
 //checked exception cannot be ignored - will not compile
+//SERIALIZATION IS USED TO TRANSFORM OBJECTS INTO WRITABLE AND READABLE FORM... TRANSLATING OBJECT
+//SERIALIZATION IS USED WITH OBJECT OUTPUT STREAM AND INPUT STREAMS
 
 //FileInputStream and FileOutputStream is for binary/byte format
 //DataInput and DataOutputStream act as a BufferedReader nad Writer
@@ -23,7 +25,7 @@ public class Locations implements Map<Integer, Location> {
 //        }
 
 
-        try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+       /* try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
             for (Location loc : locations.values()) {
                 locFile.writeInt(loc.getLocationID());
                 locFile.writeUTF(loc.getDescription());
@@ -38,14 +40,31 @@ public class Locations implements Map<Integer, Location> {
                     }
                 }
             }
+        }*/
+
+        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+            for (Location location : locations.values()) {
+                locFile.writeObject(location);
+            }
         }
     }
 
     static {
 
-        try (DataInputStream locFile = new DataInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
             boolean eof = false;
             while (!eof) {
+                try {
+                    Location location = (Location) locFile.readObject();
+                    System.out.println("Read location: " + location.getLocationID() + " : " + location.getDescription());
+                    System.out.println("Found " + location.getExits().size() + " exits");
+
+                    locations.put(location.getLocationID(), location);
+                } catch (EOFException e) {
+                    eof = true;
+                }
+            }
+     /*       while (!eof) {
                 try {
                     Map<String, Integer> exits = new LinkedHashMap<>();
                     int locID = locFile.readInt();
@@ -64,13 +83,15 @@ public class Locations implements Map<Integer, Location> {
                 } catch (EOFException e) {
                     eof = true;
                 }
-            }
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not fount " + e.getMessage());
         }
         //Buffered Reader reads text from input stream and bufers the character into character array
         // faster and more efficient
-/*        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) {
+       /* try (Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) {
             scanner.useDelimiter(" , ");
             while (scanner.hasNextLine()) {
                 int loc = scanner.nextInt();

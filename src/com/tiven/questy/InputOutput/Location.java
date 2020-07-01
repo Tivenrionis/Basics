@@ -1,15 +1,19 @@
 package com.tiven.questy.InputOutput;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * Created by dev on 8/12/2015.
  */
-public class Location {
+//MAKE SURE THAT THE FIELDS FROM COMPOSITIONS ARE SERIALIZABLE TOO
+public class Location implements Serializable {
     private final int locationID;
     private final String description;
     private final Map<String, Integer> exits;
+
+    private long serialVersionUID = 1L;
 
     public Location(int locationID, String description, Map<String, Integer> exits) {
         this.locationID = locationID;
