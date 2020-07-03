@@ -12,11 +12,43 @@ import java.util.*;
 
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new LinkedHashMap<>();
+    private static Map<Integer, IndexRecord> index = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
-        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+        try (RandomAccessFile rao = new RandomAccessFile("locations_rand.dat", "rwd")) {
+            rao.writeInt(locations.size());
+            //3 because we store three INTs  for each location locID, offset, size of location record
+            int indexSize = locations.size() * 3 * Integer.BYTES;
+            int locationStart = (int) (indexSize + rao.getFilePointer() + Integer.BYTES);
+            rao.writeInt(locationStart);
+
+            long indexStart = rao.getFilePointer();
+            int startPointer = locationStart;
+            rao.seek(startPointer);
+
             for (Location location : locations.values()) {
-                locFile.writeObject(location);
+                rao.writeInt(location.getLocationID());
+                rao.writeUTF(location.getDescription());
+                StringBuilder builder = new StringBuilder();
+                for (String direction : location.getExits().keySet()) {
+                    builder.append(direction);
+                    builder.append(",");
+                    builder.append(location.getExits().get(direction));
+                    builder.append(",");
+                }
+
+                rao.writeUTF(builder.toString());
+
+                IndexRecord record = new IndexRecord(startPointer, (int) (rao.getFilePointer() - startPointer));
+                index.put(location.getLocationID(), record);
+
+                startPointer = (int) rao.getFilePointer();
+            }
+            rao.seek(indexStart);
+            for (Integer locationID : index.keySet()) {
+                rao.writeInt(locationID);
+                rao.writeInt(index.get(locationID).getStartByte());
+                rao.writeInt(index.get(locationID).getLenght());
             }
         }
     }
