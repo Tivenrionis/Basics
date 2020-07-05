@@ -1,6 +1,11 @@
 package com.tiven.questy.InputOutput;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 //checked exception cannot be ignored - will not compile
@@ -14,15 +19,62 @@ public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
-        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+//        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+//            for (Location location : locations.values()) {
+//                locFile.writeObject(location);
+//            }
+//        }
+        Path locPath = FileSystems.getDefault().getPath("locations_big.txt");
+        Path dirPath = FileSystems.getDefault().getPath("directions_big.txt");
+
+        try (BufferedWriter locFile = Files.newBufferedWriter(locPath);
+             BufferedWriter dirFile = Files.newBufferedWriter(dirPath)) {
             for (Location location : locations.values()) {
-                locFile.writeObject(location);
+                locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
+                for (String direction : location.getExits().keySet()) {
+                    dirFile.write(location.getLocationID() + "," + direction + "," +
+                            location.getExits().get(direction) + "\n");
+                }
             }
+        } catch (IOException e) {
+            System.out.println("IOException " + e.getMessage());
         }
     }
 
     static {
-        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+
+        Path locPath = FileSystems.getDefault().getPath("locations_big.txt");
+        Path dirPath = FileSystems.getDefault().getPath("directions_big.txt");
+        try (Scanner scanner = new Scanner(Files.newBufferedReader(locPath))) {
+            scanner.useDelimiter(",");
+            while (scanner.hasNextLine()) {
+                int loc = scanner.nextInt();
+                scanner.skip(scanner.delimiter());
+                String description = scanner.nextLine();
+                System.out.println("Imported loc " + loc + ": " + description);
+                locations.put(loc, new Location(loc, description, null));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedReader dirFile = Files.newBufferedReader(dirPath)) {
+            String input;
+
+            while ((input = dirFile.readLine()) != null) {
+                String[] data = input.split(",");
+                int loc = Integer.parseInt(data[0]);
+                String direction = data[1];
+                int destination = Integer.parseInt(data[2]);
+                System.out.println(loc + ": " + direction + ": " + destination);
+                Location location = locations.get(loc);
+                location.addExit(direction,destination);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+       /* try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
             boolean eof = false;
             while (!eof) {
                 try {
@@ -41,7 +93,7 @@ public class Locations implements Map<Integer, Location> {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("Class not fount " + e.getMessage());
-        }
+        }*/
     }
 
     @Override
