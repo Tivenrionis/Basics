@@ -14,6 +14,10 @@ import java.util.*;
 //DataInput and DataOutputStream act as a BufferedReader nad Writer
 //ObjectInput and ObjectOutputStream to rw Objects
 
+//IN NIO data is writed or readed in blocks rather than one byte at a time in IO
+
+//Channels is a datasource you rw from
+
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
