@@ -56,6 +56,39 @@ public class Main {
 
             System.out.println("INT1 = " + readBuffer.getInt());
 
+            byte[] outputString = "Hello World!".getBytes();
+            long str1Pos = 0;
+            long newInt1Pos = outputString.length;
+            long newInt2Pos = newInt1Pos + Integer.BYTES;
+            byte[] outputString2 = "Nice to meet you111".getBytes();
+            long str2Pos = newInt2Pos + Integer.BYTES;
+            long newInt3Pos = str2Pos + outputString2.length;
+
+            ByteBuffer intBuffer = ByteBuffer.allocate(Integer.BYTES);
+
+            intBuffer.putInt(245);
+            intBuffer.flip();
+            channel.position(newInt1Pos);
+            channel.write(intBuffer);
+
+            intBuffer.flip();
+            intBuffer.putInt(-98765);
+            intBuffer.flip();
+            channel.position(newInt2Pos);
+            channel.write(intBuffer);
+
+            intBuffer.flip();
+            intBuffer.putInt(1000);
+            intBuffer.flip();
+            channel.position(newInt3Pos);
+            channel.write(intBuffer);
+
+            channel.position(str1Pos);
+            channel.write(ByteBuffer.wrap(outputString));
+            channel.position(str2Pos);
+            channel.write(ByteBuffer.wrap(outputString2));
+
+
   /*          ByteBuffer readBuffer = ByteBuffer.allocate(100);
             fileChannel.read(readBuffer);
             readBuffer.flip();
