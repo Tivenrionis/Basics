@@ -15,13 +15,19 @@ public class Main {
 
             ByteBuffer buffer = ByteBuffer.allocate(100);
             byte[] outputBytes = "Hello World!".getBytes();
+            byte[] outBuf = "Nice to meet you".getBytes();
+            buffer.put(outputBytes).putInt(245).putInt(-98765).put(outBuf).putInt(1000);
+            buffer.flip();
+
+            /*
+            byte[] outputBytes = "Hello World!".getBytes();
             buffer.put(outputBytes);
             buffer.putInt(245);
             buffer.putInt(-98765);
             byte[] outBuf = "Nice to meet you".getBytes();
             buffer.put(outBuf);
             buffer.putInt(1000);
-            buffer.flip();
+            buffer.flip();*/
             channel.write(buffer);
 
             RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
