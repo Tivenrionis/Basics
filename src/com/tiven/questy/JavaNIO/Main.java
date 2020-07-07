@@ -2,6 +2,7 @@ package com.tiven.questy.JavaNIO;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
@@ -22,6 +23,22 @@ public class Main {
             buffer.putInt(1000);
             buffer.flip();
             channel.write(buffer);
+
+            RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
+            FileChannel fileChannel = ra.getChannel();
+
+            ByteBuffer readBuffer = ByteBuffer.allocate(100);
+            fileChannel.read(readBuffer);
+            readBuffer.flip();
+            byte[] inputString = new byte[outputBytes.length];
+            readBuffer.get(inputString);
+            System.out.println("input string = " + new String(inputString));
+            System.out.println("int1 = " + readBuffer.getInt());
+            System.out.println("int2 = " + readBuffer.getInt());
+            byte[] inputString2 = new byte[outBuf.length];
+            readBuffer.get(inputString2);
+            System.out.println("input string2 = " + new String(inputString2));
+            System.out.println("int3 = " + readBuffer.getInt());
 
 
 //            ByteBuffer buffer = ByteBuffer.allocate(outputBytes.length);
