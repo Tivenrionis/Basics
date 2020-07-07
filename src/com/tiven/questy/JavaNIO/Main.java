@@ -56,6 +56,18 @@ public class Main {
 
             System.out.println("INT1 = " + readBuffer.getInt());
 
+            //transferring copy of a file
+            RandomAccessFile copyFile = new RandomAccessFile("datacopy.dat", "rw");
+            FileChannel copyChannel = copyFile.getChannel();
+            fileChannel.position(0);
+            long numTransferred = copyChannel.transferFrom(fileChannel, 0, fileChannel.size());
+            System.out.println("Tranferred = " + numTransferred);
+            fileChannel.close();
+            ra.close();
+            copyChannel.close();
+            //copyFile.close();
+
+
             byte[] outputString = "Hello World!".getBytes();
             long str1Pos = 0;
             long newInt1Pos = outputString.length;
