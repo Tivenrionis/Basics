@@ -47,6 +47,15 @@ public class Main {
             System.out.println(numBytesRead + " Read");
             System.out.println(new String(outputBytes));
 
+            //Absolute Read
+            intBuffer.flip();
+            numBytesRead = raChannel.read(intBuffer);
+            System.out.println(intBuffer.getInt(0));
+            intBuffer.flip();
+            numBytesRead = raChannel.read(intBuffer);
+            System.out.println(intBuffer.getInt(0));
+
+/*    RELATIVE READ
             intBuffer.flip();
             numBytesRead = raChannel.read(intBuffer);
             intBuffer.flip();
@@ -54,7 +63,9 @@ public class Main {
             intBuffer.flip();
             numBytesRead = raChannel.read(intBuffer);
             intBuffer.flip();
-            System.out.println(intBuffer.getInt());
+            System.out.println(intBuffer.getInt());*/
+
+
             raChannel.close();
             ra.close();
 
