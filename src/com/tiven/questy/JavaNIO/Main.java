@@ -2,6 +2,7 @@ package com.tiven.questy.JavaNIO;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
@@ -33,17 +34,41 @@ public class Main {
             numBytes = channel.write(intBuffer);
             System.out.println(numBytes + " Written");
 
-//            FileInputStream file = new FileInputStream("data.txt");
-//            FileChannel channel = file.getChannel();
 
-            //Dla plikow tekstowych FILES class is the way to go
+            RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
+            FileChannel raChannel = ra.getChannel();
+            outputBytes[0] = 'a';
+            outputBytes[1] = 'b';
+            buffer.flip();
+            long numBytesRead = raChannel.read(buffer);
+            if (buffer.hasArray()) {
+                System.out.println("byte buffer " + new String(buffer.array()));
+            }
+            System.out.println(numBytesRead + " Read");
+            System.out.println(new String(outputBytes));
 
- /*           Path dataPath = FileSystems.getDefault().getPath("data.txt");
-            Files.write(dataPath, "\nLine 5".getBytes("UTF-8"), StandardOpenOption.APPEND);
-            List<String> lines = Files.readAllLines(dataPath);
-            for (String line : lines) {
-                System.out.println(line);
-            }*/
+            intBuffer.flip();
+            numBytesRead = raChannel.read(intBuffer);
+            intBuffer.flip();
+            System.out.println(intBuffer.getInt());
+            intBuffer.flip();
+            numBytesRead = raChannel.read(intBuffer);
+            intBuffer.flip();
+            System.out.println(intBuffer.getInt());
+            raChannel.close();
+            ra.close();
+
+       /*     RandomAccessFile ra = new RandomAccessFile("Data.dat", "rwd");
+            byte[] b = new byte[outputBytes.length];
+            ra.read(b);
+            System.out.println(new String(b));
+
+            long int1 = ra.readInt();
+            long int2 = ra.readInt();
+
+            System.out.println(int1);
+            System.out.println(int2);*/
+
 
         } catch (IOException e) {
             e.printStackTrace();
