@@ -11,11 +11,22 @@ public class Main {
     public static void main(String[] args) {
         Path path = FileSystems.getDefault().getPath("WorkingDirectoryFile.txt");
         printFile(path);
-        Path filePath = FileSystems.getDefault().getPath("Files", "SubdirectoryFile.txt");
+
+/*        Path filePath = FileSystems.getDefault().getPath("Files", "SubdirectoryFile.txt");
+        printFile(filePath);*/
+
+        Path filePath = Paths.get(".", "Files", "SubdirectoryFile.txt");
         printFile(filePath);
 
         filePath = Paths.get("C:\\Users\\tiven\\OneDrive\\Pulpit\\Path\\OutOfWD.txt");
         printFile(filePath);
+
+        filePath = Paths.get(".");
+        System.out.println(filePath.toAbsolutePath());
+
+        Path path1 = FileSystems.getDefault().getPath(".", "Files", "..", "Files", "SubdirectoryFile.txt");
+        System.out.println(path1.normalize().toAbsolutePath());
+        printFile(path1.normalize());
 
     }
 
