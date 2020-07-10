@@ -28,6 +28,17 @@ public class Main {
         System.out.println(path1.normalize().toAbsolutePath());
         printFile(path1.normalize());
 
+        Path path2 = FileSystems.getDefault().getPath("doesntexist.txt");
+        System.out.println(path2.toAbsolutePath());
+
+        Path path3 = Paths.get("Z:\\Users\\tiven\\OneDrive\\Pulpit\\Path\\OutOfWD.txt");
+        System.out.println(path3.toAbsolutePath());
+
+        filePath = FileSystems.getDefault().getPath("Files");
+        System.out.println("Exists: " + Files.exists(filePath));
+        System.out.println("Exists: " + Files.exists(path3));
+
+
     }
 
     private static void printFile(Path path) {
