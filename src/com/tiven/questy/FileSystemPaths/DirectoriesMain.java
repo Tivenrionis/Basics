@@ -9,21 +9,19 @@ public class DirectoriesMain {
     public static void main(String[] args) {
         try {
 
-            Path fileToDelete = FileSystems.getDefault().getPath("Examples", "Dir1", "filecopy.txt");
-            Files.deleteIfExists(fileToDelete);
-//            //Moving - renaming
-//            Path fileToMove = FileSystems.getDefault().getPath("Examples", "file1.txt");
-//            Path destination = FileSystems.getDefault().getPath("Examples", "file2.txt");
-//            Files.move(fileToMove, destination);
-//            Path sourceFile = FileSystems.getDefault().getPath("Examples", "file1.txt");
-//            Path copyFile = FileSystems.getDefault().getPath("Examples", "filecopy.txt");
-//            Files.copy(sourceFile, copyFile, StandardCopyOption.REPLACE_EXISTING);
 
+//            Path fileToCreate = FileSystems.getDefault().getPath("Examples", "file1.txt");
+//            //1% na uzycie... pliki powstaja same przy otwieraniu kanalow itd aczkolwiek its here
+//            Files.createFile(fileToCreate);
+            Path dirToCreate = FileSystems.getDefault().getPath("Examples\\Dir2\\Dir3\\Dir4\\Dir5\\Dir6\\Dir7");
+            Files.createDirectories(dirToCreate);
+        //            Path dirToCreate = FileSystems.getDefault().getPath("Examples", "Dir2\\Dir3\\Dir4\\Dir5\\Dir6");
+        //            Files.createDirectories(dirToCreate);
+                    //            Path dirToCreate = FileSystems.getDefault().getPath("Examples", "Dir4");
+                    //            Files.createDirectory(dirToCreate);
 
-//Kopiuje tylko folder bez zawartosci
-//            sourceFile = FileSystems.getDefault().getPath("Examples", "Dir1");
-//            copyFile = FileSystems.getDefault().getPath("Examples", "Dir4");
-//            Files.copy(sourceFile,copyFile,StandardCopyOption.REPLACE_EXISTING);
+//            Path fileToDelete = FileSystems.getDefault().getPath("Examples", "Dir1", "filecopy.txt");
+//            Files.deleteIfExists(fileToDelete);
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
