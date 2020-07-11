@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
+//PODSUMOWANIE: DO PRACY Z FILESYSTEM UZYWAJ NIO aczkolwiek przy pisaniu i odczytywaniu plikow raczej IO
 public class ReadingDirectories {
     public static void main(String[] args) {
         DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
