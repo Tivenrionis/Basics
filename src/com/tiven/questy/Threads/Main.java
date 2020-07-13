@@ -8,14 +8,26 @@ public class Main {
         System.out.println(ANSI_PURPLE + "Hello from the main Thread");
 
         Thread anotherThread = new AnotherThread();
+        anotherThread.setName("== Another Thread ==");
         anotherThread.start();
-
-        System.out.println(ANSI_CYAN + "Hello again from main");
 
         new Thread() {
             public void run() {
                 System.out.println(ANSI_GREEN + "Hello from anonymous");
             }
         }.start();
+
+        System.out.println(ANSI_PURPLE + "Hello again from main");
+
+//        Thread myRunnableThread = new Thread(new MyRunnable());
+//        myRunnableThread.start();
+//DO RUNNABLE
+        Thread myRunnableTread = new Thread(new MyRunnable()) {
+            @Override
+            public void run() {
+                System.out.println(ANSI_RED + "Hello from anonymous runnable");
+            }
+        };
+        myRunnableTread.start();
     }
 }
