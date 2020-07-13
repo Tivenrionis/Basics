@@ -45,6 +45,7 @@ class Countdown {
         }
 // LOCAL VARIABLES are stored on the STACK where each Thread has its own copy of
         //alternative... synchronizing on the object
+        // WE ONLY SYNCHORNIZE CODE THAT NEEDS TO BE SYNCHRONIZED OR IS CRITICAL
         synchronized (this) {
             for (i = 10; i > 0; i--) {
                 System.out.println(color + Thread.currentThread().getName() + ": i =" + i);
