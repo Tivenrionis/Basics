@@ -2,6 +2,11 @@ package com.tiven.questy.Threads.Counter;
 
 import static com.tiven.questy.Threads.ThreadColor.*;
 
+//Process of controlling the way of changing variables on the HEAP
+// and the way threads r executing the code is called synchronization
+
+//If a method is synchronized - only one thread can execute that at a time
+
 public class Main {
     public static void main(String[] args) {
         Countdown countdown = new Countdown();
@@ -24,7 +29,7 @@ class Countdown {
     // - issue cause we r passing the same object
     private int i;
 
-    public void doCountdown() {
+    public  void doCountdown() {
         String color;
 
         switch (Thread.currentThread().getName()) {
@@ -39,8 +44,11 @@ class Countdown {
                 break;
         }
 // LOCAL VARIABLES are stored on the STACK where each Thread has its own copy of
-        for (i = 10; i > 0; i--) {
-            System.out.println(color + Thread.currentThread().getName() + ": i =" + i);
+        //alternative... synchronizing on the object
+        synchronized (this) {
+            for (i = 10; i > 0; i--) {
+                System.out.println(color + Thread.currentThread().getName() + ": i =" + i);
+            }
         }
     }
 }
