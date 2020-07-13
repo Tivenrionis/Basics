@@ -19,8 +19,10 @@ public class Main {
 }
 
 class Countdown {
-  //MAGIC
-    //  private int i;
+    //MAGIC - THREAD INTERFERENCE
+    // Class fields or private fields are stored in the HEAP which is shared among all threads
+    // - issue cause we r passing the same object
+    private int i;
 
     public void doCountdown() {
         String color;
@@ -36,7 +38,7 @@ class Countdown {
                 color = ANSI_GREEN;
                 break;
         }
-
+// LOCAL VARIABLES are stored on the STACK where each Thread has its own copy of
         for (i = 10; i > 0; i--) {
             System.out.println(color + Thread.currentThread().getName() + ": i =" + i);
         }
