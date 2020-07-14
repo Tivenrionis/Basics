@@ -32,22 +32,25 @@ public class Main {
             synchronized (interlock1) {
                 // try{Thread.sleep(1000);}catch (InterruptedException e){}
                 System.out.println(Thread.currentThread().getName() + " :: Wjechalem w strefe 1 trzymam interlock1");
-                System.out.println(Thread.currentThread().getName() + " :: Maluje - ");
+                System.out.println(Thread.currentThread().getName() + " :: Czekam na lock2");
                 synchronized (interlock2) {
+                    System.out.println(Thread.currentThread().getName()+ " Teraz trzymam lock2");
                     for (painting = 0; painting <= 10; painting++) {
                         System.out.println(Thread.currentThread().getName() + " Maluje pierwsza " + painting);
                     }
-                }
+                }System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock2");
                 System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock1");
             }
             synchronized (interlock2) {
                 System.out.println(Thread.currentThread().getName() + " :: Wjechalem w strefe 2 trzymam interlock2");
-
-                synchronized (interlock2) {
+                System.out.println(Thread.currentThread().getName() + " :: Czekam na lock1");
+                synchronized (interlock1) {
+                    System.out.println(Thread.currentThread().getName()+ " Teraz trzymam lock1");
                     for (painting = 0; painting <= 10; painting++) {
                         System.out.println(Thread.currentThread().getName() + " Maluje druga " + painting);
                     }
                 }
+                System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock1");
                 System.out.println(Thread.currentThread().getName() + " :: Skonczyłem malować wypuszczam interlock2");
             }
 
