@@ -47,8 +47,11 @@ class MyProducer implements Runnable {
                 System.out.println(color + "Adding.." + s);
 
                 bufferLock.lock();
-                buffer.add(s);
-                bufferLock.unlock();
+                try {
+                    buffer.add(s);
+                } finally {
+                    bufferLock.unlock();
+                }
 
                 Thread.sleep(random.nextInt(1000));
             } catch (InterruptedException e) {
@@ -58,8 +61,11 @@ class MyProducer implements Runnable {
         System.out.println(color + "Adding EOF and exiting..");
 
         bufferLock.lock();
-        buffer.add("EOF");
-        bufferLock.unlock();
+        try {
+            buffer.add("EOF");
+        } finally {
+            bufferLock.unlock();
+        }
     }
 }
 
@@ -79,18 +85,20 @@ class MyConsumer implements Runnable {
         while (true) {
 
             bufferLock.lock();
-            if (buffer.isEmpty()) {
+            try {
+                if (buffer.isEmpty()) {
+                    continue;
+                }
+                if (buffer.get(0).equals(EOF)) {
+                    System.out.println(color + "Exiting");
+                    break;
+                } else {
+                    System.out.println(color + "Removed " + buffer.remove(0));
+                }
+            } finally {
                 bufferLock.unlock();
-                continue;
             }
-            if (buffer.get(0).equals(EOF)) {
-                System.out.println(color + "Exiting");
-                bufferLock.unlock();
-                break;
-            } else {
-                System.out.println(color + "Removed " + buffer.remove(0));
-            }
-            bufferLock.unlock();
+
 
         }
     }
