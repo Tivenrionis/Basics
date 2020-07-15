@@ -21,8 +21,9 @@ public class Main {
 
     private static class PaintingRobot {
         private int painting;
-        private static Object interlock1 = new Object();
-        private static Object interlock2 = new Object();
+        //Jako fieldy sa dzielone przez watki wiec nie trzeba static bo jest na HEAPie
+        private Object interlock1 = new Object();
+        private Object interlock2 = new Object();
 
         public void doPaint() {
 
@@ -37,8 +38,8 @@ public class Main {
                     System.out.println(Thread.currentThread().getName()+ " Teraz trzymam lock2");
                     for (painting = 0; painting <= 10; painting++) {
                         System.out.println(Thread.currentThread().getName() + " Maluje pierwsza " + painting);
-                    }
-                }System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock2");
+                    }System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock2");
+                }
                 System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock1");
             }
             synchronized (interlock2) {
@@ -48,9 +49,9 @@ public class Main {
                     System.out.println(Thread.currentThread().getName()+ " Teraz trzymam lock1");
                     for (painting = 0; painting <= 10; painting++) {
                         System.out.println(Thread.currentThread().getName() + " Maluje druga " + painting);
-                    }
+                    }System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock1");
                 }
-                System.out.println(Thread.currentThread().getName() + " :: wypuszczam interlock1");
+
                 System.out.println(Thread.currentThread().getName() + " :: Skonczyłem malować wypuszczam interlock2");
             }
 
