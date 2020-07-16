@@ -1,0 +1,11 @@
+Atomic action - proces który nie moze byc wstrzymany przez wątki... mamy pewnośc ze taki proces zawsze się wykona.
+Np.:
+
+-Reading/Writing reference variables --> obj1=obj2  jest atomic, watek nie moze sie zatrzymac w polowie.
+-Reading/Writing primitive variables except long and double  -  JVM moze wymagac dwóch operacji do zapisu/odczytu long i double ( watek moze byc zawieszony pomiedzy)
+-Reading/Writing all variables declared volatile
+
+
+volatile -- sprawia ze zmienne zapisyuja sie w pamieci natychmiastowo zanim trafia do CPU Cache...
+
+Lepiej uzywac AtomicIntegers itd...
