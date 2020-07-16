@@ -1,4 +1,4 @@
-package com.tiven.questy.Threads.Starvation;
+package com.tiven.questy.Threads.ThreadsIssues.Starvation;
 
 
 import com.tiven.questy.Threads.ThreadColor;

@@ -1,4 +1,4 @@
-package com.tiven.questy.Threads.Deadlock;
+package com.tiven.questy.Threads.ThreadsIssues.Deadlock;
 
 public class Main {
     public static Object lock1 = new Object();

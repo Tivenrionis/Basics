@@ -1,4 +1,4 @@
-package com.tiven.questy.Threads.Deadlock;
+package com.tiven.questy.Threads.ThreadsIssues.Deadlock;
 
 public class SayHello {
     public static void main(String[] args) {
