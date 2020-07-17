@@ -35,6 +35,7 @@ public class Main {
         employeeList.add(jack);
         employeeList.add(snow);
 
+
 //        Collections.sort(employeeList, new Comparator<Employee>() {
 //            @Override
 //            public int compare(Employee employee1, Employee employee2) {
@@ -45,9 +46,16 @@ public class Main {
         Collections.sort(employeeList, (employee1, employee2) ->
                 employee1.getName().compareTo(employee2.getName()));
 
-        for (Employee employee : employeeList) {
+        employeeList.forEach(employee -> {
             System.out.println(employee.getName());
-        }
+            System.out.println(employee.getAge());
+
+        });
+
+//        for (Employee employee : employeeList) {
+//            System.out.println(employee.getName());
+//            new Thread(() -> System.out.println(employee.getAge())).start();
+//        }
 
 //        String sillyString = doStringStuff(new UpperConcat() {
 //            @Override
@@ -108,7 +116,7 @@ interface UpperConcat {
 
 class AnotherClass {
 
-//    public String doSomething() {
+    //    public String doSomething() {
 //        System.out.println("Another class name " + getClass().getSimpleName());
 //        return Main.doStringStuff(new UpperConcat() {
 //            @Override
@@ -118,14 +126,36 @@ class AnotherClass {
 //            }
 //        }, "String1", "String2");
 //    }
+/*    public String doSomethingNested() {
+        int i = 0;
+        {
+            UpperConcat uc = new UpperConcat() {
+                @Override
+                public String upperAndConcat(String s1, String s2) {
+                    //PROBLEM BO MUSI BYC FINAL
+                    System.out.println(i);
+                    return s1.toUpperCase() + s2.toUpperCase();
+                }
+            };
+
+            System.out.println(getClass().getSimpleName());
+
+            i++;
+            System.out.println(i);
+            return Main.doStringStuff(uc, "s2", "s3");
+        }
+    }*/
 
     public String doSomething() {
+        int i = 0;
         UpperConcat uc = (s1, s2) ->
         {
             System.out.println("The lambda expression class is " + getClass().getSimpleName());
+            System.out.println(" i in the lambda " + i);
             String res = s1.toUpperCase() + s2.toUpperCase();
             return res;
         };
+
         System.out.println("Another class name " + getClass().getSimpleName());
         return Main.doStringStuff(uc, "String1", "String2");
     }
