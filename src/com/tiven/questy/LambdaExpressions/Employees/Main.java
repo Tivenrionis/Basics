@@ -5,14 +5,16 @@ package com.tiven.questy.LambdaExpressions.Employees;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 //parametry -> cialo
 
 // Predicate :: warunki true or false
 // Supplier :: bez argumentow ale zwraca wartosci
 //Consumer :: nie zwraca wartosci
+//Function
+//BiFunction
+//UnaryOperator
 public class Main {
     public static void main(String[] args) {
         Employee john = new Employee("John Buchalka", 22);
@@ -47,6 +49,24 @@ public class Main {
 
         }
 
+        Function<Employee, String> upperCase = employee -> employee.getName().toUpperCase();
+        Function<String, String> concatenate = name -> name.substring(0, name.indexOf(' '));
+        Function chained = upperCase.andThen(concatenate);
+
+        System.out.println(chained.apply(employeeList.get(0)));
+
+        BiFunction<String, Employee, String> concatAge = (name, employee) -> name.concat(" " + employee.getAge());
+        String upper = upperCase.apply(employeeList.get(0));
+        System.out.println(concatAge.apply(upper, employeeList.get(0)));
+
+
+        //UnaryOperator bierze argument i zwraca argument
+        IntUnaryOperator incBy5 = i -> i + 5;
+        System.out.println(incBy5.applyAsInt(10));
+
+        Consumer<String> c1 = s -> s.toUpperCase();
+        Consumer<String> c2 = s -> System.out.println(s);
+        c1.andThen(c2).accept("Hello World");
 //        printEmployeesByAge(employeeList, "Over 30", employee -> employee.getAge() > 30);
 //        printEmployeesByAge(employeeList, "Less than 30", employee -> employee.getAge() <= 30);
 //        printEmployeesByAge(employeeList, "Less than 25 using anonymous", new Predicate<Employee>() {
@@ -65,7 +85,7 @@ public class Main {
 //
 //
 //        Random random = new Random();
-//        Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
+        //      Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
 //        for (int i = 0; i < 10; i++) {
 //            System.out.println(randomSupplier.get());
 //        }
