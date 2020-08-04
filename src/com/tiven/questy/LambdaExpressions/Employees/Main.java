@@ -4,10 +4,15 @@ package com.tiven.questy.LambdaExpressions.Employees;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 //parametry -> cialo
+
+// Predicate :: warunki
+// Supplier :: bez argumentow ale zwraca wartosci
 public class Main {
     public static void main(String[] args) {
         Employee john = new Employee("John Buchalka", 22);
@@ -42,13 +47,16 @@ public class Main {
         System.out.println(greaterThan15.and(lessThan100).test(333));
 
 
-//        for (Employee employee : employeeList)
-//        {
-//            if (employee.getAge() >30)
-//            {
-//                System.out.println(employee.getName());
-//            }
+        Random random = new Random();
+        Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(randomSupplier.get());
+        }
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println(random.nextInt(1000));
 //        }
+
+
     }
 
     private static void printEmployeesByAge(List<Employee> employees, String ageText, Predicate<Employee> ageCondition) {
