@@ -4,6 +4,7 @@ package com.tiven.questy.LambdaExpressions.Employees;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 
 //parametry -> cialo
@@ -26,6 +27,20 @@ public class Main {
         employeeList.add(charmin);
         printEmployeesByAge(employeeList, "Over 30", employee -> employee.getAge() > 30);
         printEmployeesByAge(employeeList, "Less than 30", employee -> employee.getAge() <= 30);
+        printEmployeesByAge(employeeList, "Less than 25 using anonymous", new Predicate<Employee>() {
+            @Override
+            public boolean test(Employee employee) {
+                return employee.getAge() < 25;
+            }
+        });
+
+        IntPredicate greaterThan15 = i -> i > 15;
+        IntPredicate lessThan100 = i -> i < 100;
+        System.out.println(greaterThan15.test(10));
+        int a = 15;
+        System.out.println(greaterThan15.test(a + 5));
+        System.out.println(greaterThan15.and(lessThan100).test(333));
+
 
 //        for (Employee employee : employeeList)
 //        {
