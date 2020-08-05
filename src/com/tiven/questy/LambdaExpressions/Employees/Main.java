@@ -12,9 +12,9 @@ import java.util.function.*;
 // Predicate :: warunki true or false
 // Supplier :: bez argumentow ale zwraca wartosci
 //Consumer :: nie zwraca wartosci
-//Function
-//BiFunction
-//UnaryOperator
+//Function :: argument - zwraca wartosc
+//BiFunction :: dwa argumenty :: zwraca wartiosc
+//UnaryOperator :: argument :: zwraca ten sam argument- tego samego typu
 public class Main {
     public static void main(String[] args) {
         Employee john = new Employee("John Buchalka", 22);
