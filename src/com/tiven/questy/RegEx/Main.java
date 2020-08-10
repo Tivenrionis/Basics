@@ -50,7 +50,7 @@ public class Main {
         System.out.println(thirdAlphanumeric.replaceAll("^abcDeee", "YYY"));
         System.out.println(thirdAlphanumeric.replaceAll("^abcDe{3}", "YYY")); // x{n} quantifier - ile razy wystepuje dany symbol
         System.out.println(thirdAlphanumeric.replaceAll("^abcDe+", "YYY")); // +  nie wazne ile razy wystepuje dany symbol ale wiecej niz 0
-        System.out.println(thirdAlphanumeric.replaceAll("^abcDe*", "YYY")); // x*  moze byc e ale nie musi
+        System.out.println(thirdAlphanumeric.replaceAll("^abcDe*", "YYY")); // x*  moze byc x ale nie musi
         System.out.println(thirdAlphanumeric.replaceAll("^abcDe{2,5}", "YYY")); // x{n,m} ma wystepowac n do m razy
         System.out.println(thirdAlphanumeric.replaceAll("h+i*j", "Y")); // h min 1 raz obok i ale nie musi oraz j obok    hhhij hij hhhj hj
 
@@ -62,7 +62,7 @@ public class Main {
         htmlText.append("<p>Here is the summary</p>");
 
         String h2Pattern = "<h2>";
-      //  String h2Pattern = ".*<h2>.*";
+        //  String h2Pattern = ".*<h2>.*";
         Pattern pattern = Pattern.compile(h2Pattern);
         //  Pattern pattern = Pattern.compile(h2Pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); // albo mozna zrobic regexp
         Matcher matcher = pattern.matcher(htmlText);
@@ -74,27 +74,60 @@ public class Main {
             System.out.println("Occurance " + counter + " : " + matcher.start() + " to " + matcher.end());
         }
 
-         // ? means one or zero quantifir=er
+        // ? means one or zero quantifir=er
         String h2GroupPattern = "(<h2>.*?</h2>)"; // adding ? to a star turning it to the lazy quantifier
-       // String h2GroupPattern = "(<h2>.*</h2>)"; // * is greedy quantifier -- grabs as much text as it can
-       // String h2GroupPattern = "(<h2>)";
+        // String h2GroupPattern = "(<h2>.*</h2>)"; // * is greedy quantifier -- grabs as much text as it can
+        // String h2GroupPattern = "(<h2>)";
         Pattern groupPattern = Pattern.compile(h2GroupPattern);
         Matcher groupMatcher = groupPattern.matcher(htmlText);
         System.out.println(groupMatcher.matches());
         groupMatcher.reset();
 
-        while(groupMatcher.find())
-        {
-            System.out.println("Occurance "+ groupMatcher.group(1));
+        while (groupMatcher.find()) {
+            System.out.println("Occurance " + groupMatcher.group(1));
         }
 
-        String h2TextGroups ="(<h2>)(.*?)(</h2>)";
+        String h2TextGroups = "(<h2>)(.*?)(</h2>)";
         Pattern groupPattern2 = Pattern.compile(h2TextGroups);
         Matcher groupMatcher2 = groupPattern2.matcher(htmlText);
-        while(groupMatcher2.find())
-        {
-            System.out.println("Occurance "+ groupMatcher2.group(2));
+        while (groupMatcher2.find()) {
+            System.out.println("Occurance " + groupMatcher2.group(2));
 
         }
+
+        // () oznacza grupe
+        // AND  OR   NOT
+        //"abc" means a and b and c
+        //[Hh]arry
+        System.out.println("harry".replaceAll("[H|h]arry", "Larry"));  // |  -> OR
+        System.out.println("Harry".replaceAll("[H|h]arry", "Larry"));
+
+        //[^abc]  Not abc
+        String tvTest = "tstvtkt";
+        //String tNotVRegExp = "t[^v]"; // ostatnie t nie bedzie wypisane bo [^x] oznacza ze nie moze byc X ale cos musi byc po
+        String tNotVRegExp = "t(?!v)"; // zeby znalazl ostatnie t --- . ! negacja NOT ... look ahead syntax (?! )  -> negative look ahead
+        //t(?=v) -> positive look ahead
+        Pattern tNotVPattern = Pattern.compile(tNotVRegExp);
+        Matcher tNotVMatcher = tNotVPattern.matcher(tvTest);
+
+        int count = 0;
+        while (tNotVMatcher.find()) {
+            count++;
+            System.out.println("Occurance" + count + " : " + tNotVMatcher.start() + " to " + tNotVMatcher.end());
+        }
+
+        //REG EXP ARE USED TO VALIDATE USER INPUT OR PATTERN IN THE FILES MAYBE
+
+        // ^([\(]{1}[0-9]{3}[\)]{1}[ ][0-9]{3}[\-][0-9]{4})$
+        String phoneOne = "1234567890";
+        String phoneTwo = "(123) 456-7890";
+        String phoneThree = "123 456-7890";
+        String phoneFour = "(123)456-7890";
+        System.out.println("Phone1 = "+ phoneOne.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ][0-9]{3}[\\-][0-9]{4})$"));
+        System.out.println("Phone2 = "+ phoneTwo.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ][0-9]{3}[\\-][0-9]{4})$"));
+        System.out.println("Phone3 = "+ phoneThree.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ][0-9]{3}[\\-][0-9]{4})$"));
+        System.out.println("Phone4 = "+ phoneFour.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ][0-9]{3}[\\-][0-9]{4})$"));
+
+        //VISA ^4[0-9]{12}([0-9]{}3)?$
     }
 }
