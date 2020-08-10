@@ -61,10 +61,40 @@ public class Main {
         htmlText.append("<h2>Summary</h2>");
         htmlText.append("<p>Here is the summary</p>");
 
-        String h2Pattern = ".*<h2>.*";
+        String h2Pattern = "<h2>";
+      //  String h2Pattern = ".*<h2>.*";
         Pattern pattern = Pattern.compile(h2Pattern);
-      //  Pattern pattern = Pattern.compile(h2Pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); // albo mozna zrobic regexp
+        //  Pattern pattern = Pattern.compile(h2Pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); // albo mozna zrobic regexp
         Matcher matcher = pattern.matcher(htmlText);
         System.out.println(matcher.matches());
+        matcher.reset(); // resetuje wewnetrzny stan matchera ktory ustawil sie gdy zNALAZL ZGODNOSC
+        int counter = 0;
+        while (matcher.find()) {
+            counter++;
+            System.out.println("Occurance " + counter + " : " + matcher.start() + " to " + matcher.end());
+        }
+
+         // ? means one or zero quantifir=er
+        String h2GroupPattern = "(<h2>.*?</h2>)"; // adding ? to a star turning it to the lazy quantifier
+       // String h2GroupPattern = "(<h2>.*</h2>)"; // * is greedy quantifier -- grabs as much text as it can
+       // String h2GroupPattern = "(<h2>)";
+        Pattern groupPattern = Pattern.compile(h2GroupPattern);
+        Matcher groupMatcher = groupPattern.matcher(htmlText);
+        System.out.println(groupMatcher.matches());
+        groupMatcher.reset();
+
+        while(groupMatcher.find())
+        {
+            System.out.println("Occurance "+ groupMatcher.group(1));
+        }
+
+        String h2TextGroups ="(<h2>)(.*?)(</h2>)";
+        Pattern groupPattern2 = Pattern.compile(h2TextGroups);
+        Matcher groupMatcher2 = groupPattern2.matcher(htmlText);
+        while(groupMatcher2.find())
+        {
+            System.out.println("Occurance "+ groupMatcher2.group(2));
+
+        }
     }
 }
