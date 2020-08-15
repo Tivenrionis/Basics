@@ -5,13 +5,17 @@ public class BankAccount {
     private String lastName;
     private double balance;
 
-    public static final int CHECKING = 1;
-    public static final int SAVINGS = 2;
+//    public static final int CHECKING = 1;
+//    public static final int SAVINGS = 2;
 
-    private int accountType;
+    public enum Type {
+        CHECKING,SAVINGS;
+    }
+
+    private Type accountType;
 
 
-    public BankAccount(String firstName, String lastName, double balance, int typeOfAccount) {
+    public BankAccount(String firstName, String lastName, double balance, Type typeOfAccount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.balance = balance;
@@ -33,7 +37,7 @@ public class BankAccount {
     }
 
     public boolean isChecking() {
-        return accountType == CHECKING;
+        return accountType == Type.CHECKING;
     }
 
 
