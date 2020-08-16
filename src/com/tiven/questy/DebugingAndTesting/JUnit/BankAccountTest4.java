@@ -35,10 +35,7 @@ public class BankAccountTest4 {
 
     @Test(expected = IllegalArgumentException.class)
     public void withdraw_NotBranch() {
-        double balance = account.withdraw(600, false);
-        assertEquals(400.0, balance, 0);
-
-
+        account.withdraw(600, false);
     }
 
     @Test
