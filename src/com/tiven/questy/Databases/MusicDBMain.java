@@ -5,6 +5,7 @@ import com.tiven.questy.Databases.model.Datasource;
 import com.tiven.questy.Databases.model.SongArtist;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class MusicDBMain {
 
@@ -46,6 +47,21 @@ public class MusicDBMain {
         System.out.println(datasource.getCount(Datasource.TABLE_SONGS));
         datasource.createViewForArtistAndSongs();
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("ENTER NAME OF A SONG ");
+        String title = scanner.nextLine();
+
+        songArtists = datasource.querySongInfoView(title);
+        if (songArtists.isEmpty()) {
+            System.out.println("Couldn't find the artist for the song");
+            return;
+        }
+
+        for (SongArtist artist : songArtists) {
+            System.out.println("FROM VIEW - Artist name = " + artist.getArtistName() +
+                    " Album name = " + artist.getAlbumName() +
+                    " Track number = " + artist.getTrack());
+        }
 
         datasource.close();
     }
