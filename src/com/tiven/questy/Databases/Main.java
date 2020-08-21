@@ -34,11 +34,17 @@ public class Main {
                     COLUMN_PHONE + " INT," +
                     COLUMN_EMAIL + " TEXT)");
 
-            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Julia','4252222','vdd@mail.com')");
-            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Michal','256662','tiv@mail.com')");
-            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Pola','6321222','polpol@mail.com')");
-            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('ROZ','733552','rrr@mail.com')");
-            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Kristen','4264215','kky@mail.com')");
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Julia','4252222','vdd@mail.com')");
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Michal','256662','tiv@mail.com')");
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Pola','6321222','polpol@mail.com')");
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('ROZ','733552','rrr@mail.com')");
+//            statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('Kristen','4264215','kky@mail.com')");
+
+            insertContact(statement, "Julia", 425222, "vdd@mail.com");
+            insertContact(statement, "Michal", 256662, "tiv@mail.com");
+            insertContact(statement, "Pola", 6321222, "polpol@mail.com");
+            insertContact(statement, "ROZ", 733552, "rrr@mail.com");
+            insertContact(statement, "Kristen", 4264215, "kky@mail.com");
 
 //            statement.execute("INSERT INTO contacts VALUES ('Rozalia','9726465','rozbloz@mail.com')");
 //
@@ -64,5 +70,9 @@ public class Main {
             System.out.println("Something went wrong " + e.getMessage());
         }
 
+    }
+
+    private static void insertContact(Statement statement, String name, int phone, String email) throws SQLException {
+        statement.execute("INSERT INTO " + TABLE_CONTACTS + " VALUES ('" + name + "','" + phone + "','" + email + "')");
     }
 }
