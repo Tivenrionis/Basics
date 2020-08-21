@@ -58,6 +58,15 @@ public class Datasource {
     public static final String QUERY_ARTIST_FOR_SONG_SORT = " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS +
             "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
 
+    public static final String TABLE_ARTIST_SONG_VIEW = "artist_list";
+    public static final String CREATE_ARTIST_SONG_VIEW = "CREATE VIEW IF NOT EXISTS " + TABLE_ARTIST_SONG_VIEW + " AS SELECT " +
+            TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME +
+            ", " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " + TABLE_SONGS + "." + COLUMN_SONG_TRACK + ", " + TABLE_SONGS + "." + COLUMN_SONG_TITLE + " FROM " +
+            TABLE_SONGS + " INNER JOIN " + TABLE_ALBUMS + " ON " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ID + "=" +
+            TABLE_SONGS + "." + COLUMN_SONG_ALBUM + " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
+            "=" + TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS + "." +
+            COLUMN_ALBUM_NAME + ", " + TABLE_SONGS + "." + COLUMN_SONG_TRACK;
+
     private Connection conn;
 
     public boolean open() {
@@ -219,5 +228,35 @@ public class Datasource {
         } catch (SQLException e) {
             e.getMessage();
         }
+    }
+
+    public int getCount(String table) {
+        String sql = "SELECT COUNT(*) ,MIN(_id) FROM " + table;
+
+        try (Statement statement = conn.createStatement();
+             ResultSet set = statement.executeQuery(sql)) {
+            int count = set.getInt(1);
+            int min = set.getInt(2);
+            System.out.println("min=" + min);
+
+            return count;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }
+
+    public void createViewForArtistAndSongs() {
+
+        try (Statement statement = conn.createStatement()) {
+
+            statement.execute(CREATE_ARTIST_SONG_VIEW);
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }

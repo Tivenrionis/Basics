@@ -43,6 +43,9 @@ public class MusicDBMain {
 
         datasource.querySongsMetaData();
 
+        System.out.println(datasource.getCount(Datasource.TABLE_SONGS));
+        datasource.createViewForArtistAndSongs();
+
 
         datasource.close();
     }
