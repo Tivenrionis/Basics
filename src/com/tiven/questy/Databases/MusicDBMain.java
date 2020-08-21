@@ -14,8 +14,22 @@ public class MusicDBMain {
             return;
         }
 
-        List<Artist> artists = datasource.queryArtists();
-        artists.forEach(a -> System.out.println(a.getName()));
+        List<Artist> artists = datasource.queryArtists(Datasource.ORDER_BY_NONE);
+        if (artists != null) {
+            System.out.println(artists.size());
+            artists.forEach(a -> {
+                System.out.println("ID " + a.getId() + " NAME " + a.getName());
+            });
+        } else {
+            System.out.println("NO Artists");
+            return;
+        }
+
+        List<String> artist_albums = datasource.queryAlbumsForArtist("Aerosmith", Datasource.ORDER_BY_ASC);
+        if (artist_albums != null) {
+            artist_albums.forEach(System.out::println);
+        }
+
 
         datasource.close();
     }
