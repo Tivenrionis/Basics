@@ -41,6 +41,8 @@ public class MusicDBMain {
             System.out.println("Artist name = " + s.getArtistName() + " Album name = " + s.getAlbumName() + " track = " + s.getTrack());
         });
 
+        datasource.querySongsMetaData();
+
 
         datasource.close();
     }

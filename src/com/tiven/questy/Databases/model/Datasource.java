@@ -203,4 +203,21 @@ public class Datasource {
             return null;
         }
     }
+
+    public void querySongsMetaData() {
+        String sql = "SELECT * FROM " + TABLE_SONGS;
+
+        try (Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+
+            int numColumns = metaData.getColumnCount();
+            for (int i = 1; i <= numColumns; i++) {
+                System.out.format("Column %d in the songs table is named %s\n", i, metaData.getColumnName(i));
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
 }
