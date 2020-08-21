@@ -2,6 +2,7 @@ package com.tiven.questy.Databases;
 
 import com.tiven.questy.Databases.model.Artist;
 import com.tiven.questy.Databases.model.Datasource;
+import com.tiven.questy.Databases.model.SongArtist;
 
 import java.util.List;
 
@@ -25,10 +26,20 @@ public class MusicDBMain {
             return;
         }
 
-        List<String> artist_albums = datasource.queryAlbumsForArtist("Aerosmith", Datasource.ORDER_BY_ASC);
+        List<String> artist_albums = datasource.queryAlbumsForArtist("Carole King", Datasource.ORDER_BY_DESC);
         if (artist_albums != null) {
             artist_albums.forEach(System.out::println);
         }
+
+        List<SongArtist> songArtists = datasource.queryArtistsForSongs("Go Your Own Way", Datasource.ORDER_BY_ASC);
+        if (songArtists == null) {
+            System.out.println("Couldn't find the artists");
+            return;
+        }
+
+        songArtists.forEach(s -> {
+            System.out.println("Artist name = " + s.getArtistName() + " Album name = " + s.getAlbumName() + " track = " + s.getTrack());
+        });
 
 
         datasource.close();
