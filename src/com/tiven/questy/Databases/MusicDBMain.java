@@ -63,6 +63,8 @@ public class MusicDBMain {
                     " Track number = " + artist.getTrack());
         }
 
+        datasource.insertSong("Whatever", "Godsmack", "Godsmack", 3);
+
         datasource.close();
     }
 }
