@@ -6,6 +6,7 @@ import java.util.List;
 
 //better to use column indexes ... more efficient in result sets
 // FOR INJECTION ATTACKS USE PREPARED STATEMENT CLASS
+//TRANSACTIONS ARE IMPORTANT
 public class Datasource {
     public static final String DB_NAME = "music.db";
 
