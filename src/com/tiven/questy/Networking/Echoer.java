@@ -22,15 +22,27 @@ public class Echoer extends Thread {
 
             while (true) {
                 String echoString = input.readLine();
+                System.out.println("Received from client " + Thread.currentThread().getName() + " " + echoString);
                 if (echoString.equals("exit")) {
                     break;
                 }
-                output.println("Echo from server: " + echoString);
+                try {
+                    Thread.sleep(6000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                output.println("Echo from server: " + Thread.currentThread().getName() + " " + echoString);
             }
-
+            System.out.println("Shutting down " + Thread.currentThread().getName());
         } catch (IOException e) {
             System.out.println("Server exception " + e.getMessage());
             // e.printStackTrace();
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
