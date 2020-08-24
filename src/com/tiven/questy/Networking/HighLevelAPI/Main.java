@@ -3,25 +3,45 @@ package com.tiven.questy.Networking.HighLevelAPI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
         try {
             URL url = new URL("http://example.org");
             URI uri = url.toURI();
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.setDoOutput(true);
+            urlConnection.connect();
 
-            BufferedReader inputStream = new BufferedReader(new InputStreamReader(url.openStream()));
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-            String line = "";
-            while (line != null) {
-                line = inputStream.readLine();
-                System.out.println(line);
+            //szybszy sposob open stream otwiera urlconnection
+            BufferedReader inputStream2 = new BufferedReader(new InputStreamReader(url.openStream()));
+
+
+            Map<String, List<String>> headerFields = urlConnection.getHeaderFields(); // get headers of the page
+
+            for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+                String key = entry.getKey();
+                List<String> values = entry.getValue();
+                System.out.println("------------Key = " + key);
+
+                for (String s : values) {
+                    System.out.println("Values = "+ s);
+                }
+
+
             }
-            inputStream.close();
+
+//            String line = "";
+//            while (line != null) {
+//                line = inputStream.readLine();
+//                System.out.println(line);
+//            }
+//            inputStream.close();
 
 
 //            System.out.println("Scheme = " + uri.getScheme());
